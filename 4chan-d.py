@@ -62,7 +62,7 @@ class App():
         counter = 1
 
         for link in links:
-            with open(link.split("/")[-1], "wb") as result:
+            with open(output+link.split("/")[-1], "wb") as result:
                 result.write(requests.get(link).content)
             counter += 1
 
