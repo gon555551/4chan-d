@@ -6,13 +6,14 @@ import bs4, requests
 
 
 def resource_path(relative_path):
-    # Pyinstaller necessity   
+    # Pyinstaller necessity
     try:
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
+
 
 class App:
     def __init__(self):
@@ -21,9 +22,7 @@ class App:
         self.root = tk.Tk()
         self.root.wm_resizable(width=False, height=False)
         self.root.title("4chan-d")
-        self.root.iconphoto(
-            True, tk.PhotoImage(file=resource_path("4chan.png"))
-        )
+        self.root.iconphoto(True, tk.PhotoImage(file=resource_path("4chan.png")))
 
         self.counter = 0
         self.item_number = 0
