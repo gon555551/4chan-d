@@ -18,7 +18,6 @@ def resource_path(relative_path):
 class App:
     def __init__(self):
         # Basic initialization
-
         self.root = tk.Tk()
         self.root.wm_resizable(width=False, height=False)
         self.root.title("4chan-d")
@@ -27,6 +26,7 @@ class App:
         self.counter = 0
         self.item_number = 0
         self.threads = []
+        self.watcher = []
 
         self.thread_link = tk.StringVar()
         self.output_path = tk.StringVar()
@@ -120,7 +120,7 @@ class App:
                 f"Downloading: {'#' * ten_ratio}{'-' * (10 - ten_ratio)} ({self.counter}/{self.item_number})"
             )
         self.downloading.set(f"Completed!! ({self.counter}/{self.item_number})")
-        self.threads = []
+        self.threads, self.watcher = [], []
         self.counter = 0
         self.item_number = 0
 
@@ -131,17 +131,15 @@ class App:
 
         links = self.get_links(thread)
 
-        self.item_number = links.__len__()
+        self.item_number += links.__len__()
 
         for link in links:
-            self.threads.append(
-                threading.Thread(target=self.download_worker, args=(link, output))
-            )
-
-        for worker in self.threads:
+            worker = threading.Thread(target=self.download_worker, args=(link, output))
+            self.threads.append(worker)
             worker.start()
 
-        threading.Thread(target=self.write_to_gui).start()
+        if self.watcher == []:
+            self.watcher.append(threading.Thread(target=self.write_to_gui).start())
 
 
 app = App()
