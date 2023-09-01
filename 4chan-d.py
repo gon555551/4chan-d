@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import filedialog
 import os
 import bs4, requests
 
@@ -22,14 +23,17 @@ class App():
         self.root.mainloop()
 
     def setup_widgets(self):
-        tk.Label(self.mainframe, text="Thread", padx=5, pady=5).grid(column=0, row=0)
-        tk.Label(self.mainframe, text="Output", padx=5, pady=5).grid(column=0, row=1)
-        tk.Label(self.mainframe, textvariable=self.downloading, padx=5, pady=5).grid(column=1, row=2)
+        tk.Label(self.mainframe, text="Thread", padx=5, pady=5, height=1).grid(column=0, row=0)
+        tk.Button(self.mainframe, text="Output 📂", padx=5, pady=5, command=self.get_output).grid(column=0, row=1)
+        tk.Label(self.mainframe, textvariable=self.downloading, padx=5, pady=5).grid(column=3, row=2)
         
         tk.Entry(self.mainframe, textvariable=self.thread_link, width=50).grid(column=1, row=0)
         tk.Entry(self.mainframe, textvariable=self.output_path, width=50).grid(column=1, row=1)
 
-        tk.Button(self.mainframe, text="Download", padx=5, pady=5, command=self.download).grid(column=0, row=2)
+        tk.Button(self.mainframe, text="Download", padx=5, pady=5, command=self.download, anchor="e").grid(column=0, row=2)
+
+    def get_output(self):
+        self.output_path.set(filedialog.askdirectory(title="Select output directory"))
 
     def treat_output(self, output: str) -> str:
         if output == "":
