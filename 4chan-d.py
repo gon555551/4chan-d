@@ -1,5 +1,5 @@
 import tkinter as tk
-import os, threading
+import os
 import bs4, requests
 
 
